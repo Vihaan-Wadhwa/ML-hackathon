@@ -1,6 +1,17 @@
 
 import streamlit as st
 import requests
+import sys
+from pathlib import Path
+
+# ---------------- PROJECT PATH ----------------
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from visualization.folium_map import display_route_map
 
 # ---------------- CONFIGURATION ----------------
 
@@ -72,7 +83,8 @@ page = st.sidebar.radio(
     [
         "Dashboard",
         "Available Trips",
-        "Route Evaluation"
+        "Route Evaluation",
+        "Route Map Demo"
     ]
 )
 
@@ -123,7 +135,9 @@ if page == "Dashboard":
         if name == "Device 4":
             st.success(f"🟢 {name} — {description}")
         else:
-            st.info(f"⏳ {name} — {description} (Integration pending)")
+            st.info(
+                f"⏳ {name} — {description} (Integration pending)"
+            )
 
     st.divider()
 
@@ -146,7 +160,9 @@ elif page == "Available Trips":
     trips_data = get_trips()
 
     if trips_data is None:
-        st.error("Backend connection failed. Start FastAPI first.")
+        st.error(
+            "Backend connection failed. Start FastAPI first."
+        )
 
     else:
         st.metric("Total Trips", trips_data["count"])
@@ -157,7 +173,9 @@ elif page == "Available Trips":
                 use_container_width=True
             )
         else:
-            st.warning("No GPS .track files found in the data folder.")
+            st.warning(
+                "No GPS .track files found in the data folder."
+            )
 
 # ---------------- ROUTE EVALUATION ----------------
 
@@ -214,11 +232,41 @@ elif page == "Route Evaluation":
             except requests.RequestException as error:
                 st.error(f"Evaluation failed: {error}")
 
+# ---------------- ROUTE MAP DEMO ----------------
+
+elif page == "Route Map Demo":
+
+    st.header("Interactive GPS Route Map")
+
+    st.info(
+        "This is a demonstration route using sample coordinates. "
+        "Actual GPS route data will be connected after module integration."
+    )
+
+    demo_coordinates = [
+        (12.9716, 77.5946),
+        (12.9730, 77.5960),
+        (12.9750, 77.5980),
+        (12.9770, 77.6000),
+        (12.9790, 77.6020)
+    ]
+
+    st.subheader("Sample Reconstructed Route")
+
+    display_route_map(
+        demo_coordinates,
+        map_key="demo_route"
+    )
+
+    st.caption(
+        "Sample coordinates are used for demonstration only."
+    )
+
 # ---------------- FOOTER ----------------
 
 st.divider()
 
 st.caption(
     "GPS Route Reconstruction | Distributed Computing "
-    "| FastAPI + Streamlit"
+    "| FastAPI + Streamlit + Folium"
 )
