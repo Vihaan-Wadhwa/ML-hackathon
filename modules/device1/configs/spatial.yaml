@@ -1,0 +1,12 @@
+# Device 1 spatial engine configuration. Tuned in Part 5 on train + student_test only.
+crs_kind: tmerc          # per-trip transverse Mercator at the median node ("utm" = alternative)
+k: 8                     # max candidates per observation
+radius_m: 50.0           # candidate search radius R
+fallback_radius_m: 0.0   # >R: nearest arc within this radius when none within R (0 = off)
+min_move_m: 1.0          # displacement from previous fix needed for has_heading = 1
+gap_threshold_s: 1.0     # gap_flag = 1 when dt_s > this
+align:                   # label alignment rule v1 (src/spatial/labels.py)
+  lam_m: 1.0
+  heading_w_m: 10.0
+  min_move_m: 2.0
+  noise_m: 50.0

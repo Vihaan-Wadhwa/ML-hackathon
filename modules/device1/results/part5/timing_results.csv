@@ -1,0 +1,5 @@
+machine,trips,mode,median_s,p95_s,max_s,trips_over_1_5s
+Kaggle CPU (Linux-6.18.55+-x86_64-with-glibc2.39),90,inference,0.0448,0.174,0.3211,0
+Darwin arm64 laptop (5 slowest/largest trips),5,inference,0.081,0.1408,0.1541,0
+Kaggle CPU (Linux-6.18.55+-x86_64-with-glibc2.39),90,full,0.0744,0.3771,0.8563,0
+Darwin arm64 laptop (5 slowest/largest trips),5,full,0.321,0.4433,0.4614,0

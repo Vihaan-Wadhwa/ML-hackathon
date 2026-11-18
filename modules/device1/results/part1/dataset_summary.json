@@ -1,0 +1,132 @@
+{
+  "trips_per_partition": {
+    "train": 80,
+    "student_test": 10
+  },
+  "evaluator_trips_present": 0,
+  "trips_scanned_ok": 90,
+  "trips_failed": 0,
+  "files_per_ext": {
+    "arcs": 90,
+    "nodes": 90,
+    "route": 90,
+    "track": 90
+  },
+  "distinct_networks": 90,
+  "utm_zones_seen": [
+    "14",
+    "15",
+    "16",
+    "17",
+    "21",
+    "22",
+    "29",
+    "30",
+    "31",
+    "32",
+    "33",
+    "34",
+    "35",
+    "36",
+    "37",
+    "38",
+    "39",
+    "40",
+    "41",
+    "43",
+    "48",
+    "51",
+    "53"
+  ],
+  "total_obs": 227577,
+  "obs_per_trip": {
+    "count": 90.0,
+    "mean": 2528.6,
+    "std": 3157.0,
+    "min": 262.0,
+    "25%": 899.2,
+    "50%": 1496.5,
+    "75%": 2816.2,
+    "max": 19313.0
+  },
+  "dt_eq_1_share_overall": 0.9668200820266653,
+  "trips_with_negative_dt": 0,
+  "trips_with_zero_dt": 0,
+  "trips_with_gap_gt_10s": 42,
+  "max_dt_s": 153064.0,
+  "trips_with_nan_track_rows": 0,
+  "trips_with_bad_arc_endpoint": 0,
+  "trips_with_route_bad_id": 0,
+  "trips_with_route_breaks": 11,
+  "route_connected_share_min": 0.9813084112149533,
+  "track_inside_node_bbox_share_min": 1.0,
+  "alignment_default": {
+    "lam_m": 1.0,
+    "heading_w_m": 10.0
+  },
+  "noise_threshold_m": 50.0,
+  "obs_gt_30m_total": 26217,
+  "obs_gt_50m_total": 23295,
+  "align_p95_m_worst_trip": 242.3870849609375,
+  "changed_share_by_variant_max": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0045,
+    "3": 0.137,
+    "4": 0.0317
+  },
+  "align_seconds_max": 1.7257637977600098,
+  "changed_share_by_variant_median": {
+    "0": 0.0,
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0214,
+    "4": 0.0067
+  },
+  "labelled_obs": 204282,
+  "unlabelled_obs": 23295,
+  "unlabelled_share_overall": 0.1023609591478928,
+  "unlabelled_by_partition": {
+    "student_test": 0.0014,
+    "train": 0.1116
+  },
+  "unlabelled_with_no_route_arc_within_noise": 22603,
+  "unlabelled_share_per_trip": {
+    "count": 90.0,
+    "mean": 0.0222,
+    "std": 0.1131,
+    "min": 0.0,
+    "25%": 0.0,
+    "50%": 0.0,
+    "75%": 0.0004,
+    "max": 0.8944
+  },
+  "trips_unlabelled_gt_5pct": [
+    {
+      "partition": "train",
+      "trip_id": "00000002",
+      "unl": 0.12
+    },
+    {
+      "partition": "train",
+      "trip_id": "00000033",
+      "unl": 0.59
+    },
+    {
+      "partition": "train",
+      "trip_id": "00000043",
+      "unl": 0.072
+    },
+    {
+      "partition": "train",
+      "trip_id": "00000054",
+      "unl": 0.894
+    },
+    {
+      "partition": "train",
+      "trip_id": "00000066",
+      "unl": 0.09
+    }
+  ],
+  "scan_seconds": 169.89143204689026
+}

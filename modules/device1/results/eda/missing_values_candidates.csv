@@ -1,0 +1,19 @@
+column (null share of candidate rows),train,student_test
+trip_id,0.0,0.0
+obs_idx,0.0,0.0
+timestamp,0.0,0.0
+arc_id,0.0,0.0
+cand_rank,0.0,0.0
+perp_dist_m,0.0165,0.0
+bearing_diff_deg,0.0233,0.0054
+speed_mps,0.0005,0.0005
+dt_s,0.0005,0.0005
+gap_flag,0.0,0.0
+dist_to_start_m,0.0165,0.0
+dist_to_end_m,0.0165,0.0
+frac_along,0.0165,0.0
+seg_len_m,0.0165,0.0
+n_candidates,0.0,0.0
+has_heading,0.0,0.0
+is_match,0.0401,0.0005
+ref_arc_id,0.0,0.0

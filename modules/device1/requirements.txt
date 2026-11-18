@@ -1,0 +1,12 @@
+# Device 1 runtime (all already in the root requirements.txt)
+numpy>=2.0
+pandas>=2.2
+pyarrow>=15
+pyproj>=3.6
+shapely>=2.0
+PyYAML>=6.0
+scipy>=1.11
+# scripts / tests only
+matplotlib>=3.8
+folium>=0.17
+pytest>=8

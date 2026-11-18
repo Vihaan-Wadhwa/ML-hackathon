@@ -6,3 +6,11 @@ data/*.parquet
 *.parquet
 
 venv/
+
+# raw trip data (incl. evaluator labels) must never be committed
+*.track
+*.nodes
+*.arcs
+*.route
+!modules/device3/data/synthetic/*.nodes
+!modules/device3/data/synthetic/*.arcs

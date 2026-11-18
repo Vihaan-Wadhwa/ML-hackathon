@@ -1,0 +1,15 @@
+raw_check,student_test,train
+track_nan_rows,0,0
+track_lon_out_of_range,0,0
+track_lat_out_of_range,0,0
+track_zero_coords,0,0
+dup_consecutive_fix,0,6
+nodes_nan_rows,0,0
+nodes_out_of_range,0,0
+dup_node_coords,3,89
+arcs_bad_endpoint,0,0
+arcs_self_loop,2,22
+arcs_duplicate,128,1775
+route_bad_id,0,0
+route_breaks,1,13
+t_non_integer,0,8214

@@ -1,0 +1,4 @@
+partition,k,radius_m,labelled_obs,miss_rate_pooled,miss_rate_strict_unlabelled_as_miss,miss_rate_trip_mean,miss_rate_trip_max,trips_over_5pct,rows_per_obs,positive_rate,target_lt_5pct_met
+train,8,50,185149,0.00865,0.11933,0.01178,0.19875,4,5.293,0.1664,True
+student_test,8,50,19133,0.00287,0.00428,0.00379,0.02383,0,5.931,0.1679,True
+train+student_test,8,50,204282,0.00811,0.10964,0.0109,0.19875,4,5.346,0.1665,True

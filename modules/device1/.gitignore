@@ -1,0 +1,5 @@
+# run outputs (derived data: never committed)
+outputs/
+*.parquet
+__pycache__/
+.pytest_cache/
