@@ -17,6 +17,11 @@ from visualization.folium_map import display_route_map
 
 API_URL = "http://127.0.0.1:8000"
 
+EVAL_TRIPS = [
+    "00000015", "00000017", "00000023", "00000030", "00000049",
+    "00000059", "00000067", "00000073", "00000087", "00000094"
+]
+
 st.set_page_config(
     page_title="GPS Route Reconstruction",
     page_icon="🛰️",
@@ -116,8 +121,8 @@ if page == "Dashboard":
 
     with col3:
         st.metric(
-            "API Version",
-            "1.0.0"
+            "Evaluation Trips",
+            len(EVAL_TRIPS)
         )
 
     st.divider()
@@ -184,53 +189,44 @@ elif page == "Route Evaluation":
     st.header("Route Evaluation")
 
     st.write(
-        "Select a GPS trip ID to initiate the evaluation pipeline."
+        "Select one of the 10 predefined evaluation trips."
     )
 
-    trips_data = get_trips()
+    selected_trip = st.selectbox(
+        "Select Evaluation Trip",
+        EVAL_TRIPS
+    )
 
-    if trips_data is None:
-        st.error("Backend is offline. Start FastAPI first.")
+    st.info(f"Selected Trip ID: {selected_trip}")
 
-    elif not trips_data["trips"]:
-        st.warning(
-            "No trips are available yet. Add a valid .track file "
-            "to the data folder."
-        )
+    if st.button("Evaluate Route", type="primary"):
 
-    else:
-        trip_ids = [
-            trip["trip_id"]
-            for trip in trips_data["trips"]
-        ]
+        try:
+            response = requests.post(
+                f"{API_URL}/evaluate/{selected_trip}",
+                timeout=30
+            )
 
-        selected_trip = st.selectbox(
-            "Select Trip",
-            trip_ids
-        )
+            response.raise_for_status()
+            result = response.json()
 
-        if st.button("Evaluate Route", type="primary"):
+            st.subheader("Evaluation Response")
+            st.json(result)
 
-            try:
-                response = requests.post(
-                    f"{API_URL}/evaluate/{selected_trip}",
-                    timeout=30
+            if result.get("status") == "pending":
+                st.warning(
+                    "Waiting for Device 1, Device 2 "
+                    "and Device 3 integration."
                 )
 
-                response.raise_for_status()
-                result = response.json()
+            elif result.get("status") == "not_found":
+                st.warning(
+                    "Trip data is not available yet. "
+                    "The corresponding data files are required."
+                )
 
-                st.subheader("Evaluation Response")
-                st.json(result)
-
-                if result.get("status") == "pending":
-                    st.info(
-                        "Waiting for Device 1, Device 2 "
-                        "and Device 3 integration."
-                    )
-
-            except requests.RequestException as error:
-                st.error(f"Evaluation failed: {error}")
+        except requests.RequestException as error:
+            st.error(f"Evaluation failed: {error}")
 
 # ---------------- ROUTE MAP DEMO ----------------
 
