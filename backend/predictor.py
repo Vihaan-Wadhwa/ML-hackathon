@@ -49,6 +49,7 @@ def predict_candidates(input_path: str, output_path: str):
         df[FEATURE_COLUMNS]
         .replace([np.inf, -np.inf], np.nan)
         .fillna(0)
+        .to_numpy()
     )
 
     model = load_model()
