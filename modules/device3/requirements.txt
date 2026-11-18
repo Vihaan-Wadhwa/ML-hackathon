@@ -1,0 +1,7 @@
+# PathSnap Device 3: Road Graph & Decoder Requirements
+networkx>=3.0
+numpy>=2.0
+pandas>=2.0
+matplotlib>=3.8
+pyarrow>=15.0
+pytest>=8.0
