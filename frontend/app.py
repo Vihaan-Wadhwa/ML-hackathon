@@ -1,0 +1,224 @@
+
+import streamlit as st
+import requests
+
+# ---------------- CONFIGURATION ----------------
+
+API_URL = "http://127.0.0.1:8000"
+
+st.set_page_config(
+    page_title="GPS Route Reconstruction",
+    page_icon="🛰️",
+    layout="wide"
+)
+
+# ---------------- CUSTOM STYLING ----------------
+
+st.markdown("""
+<style>
+    .main {
+        background-color: #0e1117;
+    }
+    .stMetric {
+        background: #1c2333;
+        padding: 18px;
+        border-radius: 12px;
+    }
+    h1, h2, h3 {
+        color: #60a5fa;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# ---------------- HEADER ----------------
+
+st.title("🛰️ GPS Route Reconstruction")
+st.caption("Distributed GPS Processing & Evaluation Dashboard")
+
+st.divider()
+
+# ---------------- API CONNECTION ----------------
+
+def get_api_health():
+    try:
+        response = requests.get(
+            f"{API_URL}/health",
+            timeout=5
+        )
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException:
+        return None
+
+
+def get_trips():
+    try:
+        response = requests.get(
+            f"{API_URL}/trips",
+            timeout=10
+        )
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException:
+        return None
+
+
+# ---------------- SIDEBAR ----------------
+
+st.sidebar.title("Navigation")
+
+page = st.sidebar.radio(
+    "Select Module",
+    [
+        "Dashboard",
+        "Available Trips",
+        "Route Evaluation"
+    ]
+)
+
+st.sidebar.divider()
+st.sidebar.caption("GPS Route Reconstruction | Device 4")
+
+# ---------------- DASHBOARD ----------------
+
+if page == "Dashboard":
+
+    st.header("System Overview")
+
+    health = get_api_health()
+    trips_data = get_trips()
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.metric(
+            "Backend Status",
+            "Online" if health else "Offline"
+        )
+
+    with col2:
+        st.metric(
+            "Available Trips",
+            trips_data["count"] if trips_data else 0
+        )
+
+    with col3:
+        st.metric(
+            "API Version",
+            "1.0.0"
+        )
+
+    st.divider()
+
+    st.subheader("Distributed Device Status")
+
+    devices = [
+        ("Device 1", "Feature Extraction"),
+        ("Device 2", "ML Model"),
+        ("Device 3", "Route Reconstruction"),
+        ("Device 4", "Backend Integration")
+    ]
+
+    for name, description in devices:
+        if name == "Device 4":
+            st.success(f"🟢 {name} — {description}")
+        else:
+            st.info(f"⏳ {name} — {description} (Integration pending)")
+
+    st.divider()
+
+    st.subheader("System Information")
+
+    if health:
+        st.json(health)
+    else:
+        st.error("Cannot connect to FastAPI backend.")
+
+# ---------------- AVAILABLE TRIPS ----------------
+
+elif page == "Available Trips":
+
+    st.header("Available GPS Trips")
+
+    if st.button("Refresh Trips"):
+        st.rerun()
+
+    trips_data = get_trips()
+
+    if trips_data is None:
+        st.error("Backend connection failed. Start FastAPI first.")
+
+    else:
+        st.metric("Total Trips", trips_data["count"])
+
+        if trips_data["trips"]:
+            st.dataframe(
+                trips_data["trips"],
+                use_container_width=True
+            )
+        else:
+            st.warning("No GPS .track files found in the data folder.")
+
+# ---------------- ROUTE EVALUATION ----------------
+
+elif page == "Route Evaluation":
+
+    st.header("Route Evaluation")
+
+    st.write(
+        "Select a GPS trip ID to initiate the evaluation pipeline."
+    )
+
+    trips_data = get_trips()
+
+    if trips_data is None:
+        st.error("Backend is offline. Start FastAPI first.")
+
+    elif not trips_data["trips"]:
+        st.warning(
+            "No trips are available yet. Add a valid .track file "
+            "to the data folder."
+        )
+
+    else:
+        trip_ids = [
+            trip["trip_id"]
+            for trip in trips_data["trips"]
+        ]
+
+        selected_trip = st.selectbox(
+            "Select Trip",
+            trip_ids
+        )
+
+        if st.button("Evaluate Route", type="primary"):
+
+            try:
+                response = requests.post(
+                    f"{API_URL}/evaluate/{selected_trip}",
+                    timeout=30
+                )
+
+                response.raise_for_status()
+                result = response.json()
+
+                st.subheader("Evaluation Response")
+                st.json(result)
+
+                if result.get("status") == "pending":
+                    st.info(
+                        "Waiting for Device 1, Device 2 "
+                        "and Device 3 integration."
+                    )
+
+            except requests.RequestException as error:
+                st.error(f"Evaluation failed: {error}")
+
+# ---------------- FOOTER ----------------
+
+st.divider()
+
+st.caption(
+    "GPS Route Reconstruction | Distributed Computing "
+    "| FastAPI + Streamlit"
+)
